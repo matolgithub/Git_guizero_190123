@@ -11,7 +11,26 @@ def add_dote():
         x, y = randint(0, GRID_SIZE - 1), randint(0, GRID_SIZE - 1)
     board[x, y].dotty = True
     board.set_pixel(x, y, "red")
-    board.after(1000, add_dote)
+
+    speed = 1000
+    if score > 10:
+        speed -= 500
+    elif score > 20:
+        speed -= 600
+    elif score > 30:
+        speed -= 700
+    elif score > 40:
+        speed -= 800
+
+    all_red = True
+    for x in range(GRID_SIZE):
+        for y in range(GRID_SIZE):
+            if board[x, y].color != "red":
+                all_red = False
+    if all_red:
+        score_display.value = "You lost! Score is: " + str(score)
+    else:
+        board.after(speed, add_dote)
 
 
 def destroy_dot(x, y):
